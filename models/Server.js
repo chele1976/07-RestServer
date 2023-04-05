@@ -1,5 +1,7 @@
 const express = require('express');
-const cors = require('cors')
+const cors = require('cors');
+
+const {connectDB} = require("../database/config")
 
 class Server {
 
@@ -9,18 +11,24 @@ class Server {
         this.port = process.env.PORT;
         this.basePath = __dirname.replace("\models","");
 
+        this.databaseConnection();
+
         this.middleware();
 
         this.routes();
     }
 
-    middleware = ()=>{
+    async databaseConnection (){
+       await connectDB();        
+    }
+
+    middleware (){
         this.app.use(cors());
         this.app.use(express.json());
         this.app.use(express.static("public"));
     }
 
-    routes = ()=>{
+    routes (){
        this.app.get('/app', (req, res)=> {
         res.sendFile(this.basePath + '/public/index.html');
         });
