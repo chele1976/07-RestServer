@@ -33,7 +33,7 @@ class Server {
         res.sendFile(this.basePath + '/public/index.html');
         });
 
-
+        this.app.use("/api/auth", require("../routes/auth"))
         this.app.use("/api/usuarios", require("../routes/usuarios"))
     }
 

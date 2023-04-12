@@ -1,9 +1,10 @@
 const {response} = require("express");
 const bcrypt = require('bcryptjs');
 const Usuario = require('../models/Usuario');
-const { findById } = require("../models/Usuario");
 
 const usuariosGET = async (req, res=response)=> {
+
+    console.log('usuario autenticado -> ', req.usuario);
 
     const {skip=0, limit=10} = req.query;
     const query = {estado:true};
@@ -19,6 +20,9 @@ const usuariosGET = async (req, res=response)=> {
 }
 
 const usuariosPOST = async (req, res=response)=> {
+
+    console.log('usuario autenticado -> ', req.usuario);
+
     const {nombre, correo, password, rol} = req.body;
     const usuario = new Usuario({nombre, correo, rol});
     const salt = bcrypt.genSaltSync(10);
@@ -43,7 +47,9 @@ const usuariosPOST = async (req, res=response)=> {
 }   
 
 const usuariosPUT = async (req, res=response)=> {
-    
+
+    console.log('usuario autenticado -> ', req.usuario);
+
     const {id} = req.params;
     const {correo, password, ...usuarioUpdate} = req.body;
     const {modifiedCount} = await Usuario.updateOne({_id:id}, usuarioUpdate);
@@ -64,6 +70,9 @@ const usuariosPUT = async (req, res=response)=> {
 }   
 
 const usuariosPATCH = (req, res=response)=> {
+
+    console.log('usuario autenticado -> ', req.usuario);
+
     res.status(200).json({
         ok:true,
         message:'DELETE Success!'
@@ -71,6 +80,8 @@ const usuariosPATCH = (req, res=response)=> {
 }   
 
 const usuariosDELETE = async (req, res=response)=> {
+
+    console.log('usuario autenticado -> ', req.usuario);
 
     const {id} = req.params;
     //const usuario = await Usuario.findByIdAndDelete({_id:id});
