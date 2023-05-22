@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const jwt = require("jsonwebtoken");
-const Usuario = require('../models/Usuario');
+const Usuario = require('../models/usuario');
 
 
 const checkJWT = async (req, res, next)=>{

@@ -15,6 +15,14 @@ class Server {
 
         this.middleware();
 
+        this.paths = {
+            auth : "/api/auth",
+            busquedas: "/api/busquedas",
+            categorias: "/api/categorias",
+            productos: "/api/productos",
+            usuarios: "/api/usuarios"
+        }
+
         this.routes();
     }
 
@@ -30,11 +38,14 @@ class Server {
 
     routes (){
        this.app.get('/app', (req, res)=> {
-        res.sendFile(this.basePath + '/public/index.html');
+            res.sendFile(this.basePath + '/public/index.html');
         });
 
-        this.app.use("/api/auth", require("../routes/auth"))
-        this.app.use("/api/usuarios", require("../routes/usuarios"))
+        this.app.use(this.paths.auth, require("../routes/auth"))
+        this.app.use(this.paths.busquedas, require("../routes/busquedas"))
+        this.app.use(this.paths.categorias, require("../routes/categorias"))
+        this.app.use(this.paths.productos, require("../routes/productos"))
+        this.app.use(this.paths.usuarios, require("../routes/usuarios"))
     }
 
     listen = ()=>{

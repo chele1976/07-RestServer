@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs');
 
-const Role = require("../models/Role");
-const Usuario = require("../models/Usuario");
+const {Role, Usuario, Categoria, Producto} = require("../models");
 
 const checkValidRole = async (rol = "")=>{
     const existeRol = await Role.findOne({rol});
@@ -19,16 +18,35 @@ const checkValidCorreo = async (correo = "")=>{
 };
 
 
-const checkExistId = async (id)=>{
-    const isUsuario = await Usuario.findById(id);
+const checkExistUsuarioById = async (id)=>{
+    const exist = await Usuario.findById(id);
 
-    if (!isUsuario){
+    if (!exist){
         throw new Error(`El usuario con id ${id} no existe`);
     }
 };
 
+const checkExistCategoriaById = async (id)=>{
+    const exist = await Categoria.findById({"_id":id});
+
+    if (!exist){
+        throw new Error(`La Categoria con id ${id} no existe`);
+    }
+};
+
+const checkExistProductoById = async (id)=>{
+    const exist = await Producto.findById({"_id":id});
+
+    if (!exist){
+        throw new Error(`La Categoria con id ${id} no existe`);
+    }
+};
+
 module.exports = {
-    checkValidRole,
     checkValidCorreo,
-    checkExistId
+    checkExistCategoriaById,
+    checkExistProductoById,
+    checkValidRole,
+    checkExistUsuarioById
+
 }
